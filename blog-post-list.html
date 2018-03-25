@@ -1,0 +1,19 @@
+---
+layout: blog-post-list
+title: Blog Posts
+title_sub: List of all my blog posts!
+---
+<!-- <p class="editor-link"><a href="cloudcannon:collections/posts" class="btn"><strong>&#9998;</strong> Update Change Log</a></p> -->
+
+<div class="blog-post-list">
+	{% for post in site.posts %}
+		<div class="user-blog-post-list">
+			<h1>{{ post.title }}</h1>
+			<p><span class="date">{{ change.date | date: "%B %d, %Y" }}</span>
+
+			{{ post.content }}
+
+			<!-- <p class="editor-link"><a href="cloudcannon:collections/{{ change.path }}" class="btn"><strong>&#9998;</strong> Update Entry</a></p> -->
+		</div>
+	{% endfor %}
+</div>
