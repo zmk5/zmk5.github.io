@@ -20,3 +20,13 @@ def something():
 if__name__ == "__main__":
   something()
 ```
+
+{% highlight python linenos %}
+import numpy as np
+
+def something():
+  pass
+
+if__name__ == "__main__":
+  something()
+{% endhighlight %}

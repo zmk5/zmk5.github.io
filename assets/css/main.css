@@ -30,52 +30,10 @@ hr {
   overflow: visible
 }
 
-/* code, kbd, pre, samp {
+code, kbd, pre, samp {
   font-family: monospace, monospace;
   font-size: 1em
 } */
-
-/* This is where I add the code rework */
-
-pre, code, tt {
-	font-family: Inconsolata, Consolas, Courier, "Courier New", "Liberation Mono", monospace;
-	font-size: 1.0em;
-	white-space: pre-wrap;
-	border-radius: 2px;
-	line-height: 1.4;
-	font-weight: 400;
-	background-color: #f7f7f9;
-	color: #48484c;
-	border-radius: 2px;
-}
-
-pre {
-	box-sizing: border-box;
-	margin: 0 0 1.75em 0;
-	width: 100%;
-	padding: 10px;
-	font-size: 0.9em;
-	white-space: pre;
-	overflow: auto;
-	border-radius: 3px;
-
-	code, tt {
-		font-size: inherit;
-		white-space: pre-wrap;
-		background: transparent;
-		border: none;
-		padding: 0
-	}
-}
-
-blockquote > code,
-li > code,
-p > code {
-	padding: 4px 6px;
-	white-space: nowrap;
-}
-
-/* End of code rework */
 
 a {
   background-color: transparent;
@@ -4828,6 +4786,44 @@ sub, sup {
   margin-right: 5px
 }
 
+#publications-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 960px;
+  margin: 0 auto
+}
+
+@media only screen and (min-width:550px) {
+  #publications-list {
+    width: 80%
+  }
+}
+
+.user-publications-list {
+  margin: 20px auto
+}
+
+.user-publications-list img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px
+}
+
+.user-publications-list h3, h5, body {
+  margin: 0
+}
+
+.user-publications-list li {
+  color: #1a222c;
+  font-size: 1.1rem
+}
+
+.user-publications-list p {
+  margin-right: 5px
+}
+
 @media only screen and (min-width:550px) {
   .contents {
     margin-left: 0;
@@ -4869,6 +4865,29 @@ sub, sup {
 }
 
 .project-link:active, .project-link:hover {
+  background-color: #54516a;
+  border-color: #54516a;
+  color: #fff;
+  transition: color .3s ease-in, background-color .3s ease-in, border-color .3s ease-in
+}
+
+.publications-link {
+  display: block;
+  width: 200px;
+  margin: 10px 0;
+  padding: 5px;
+  color: #1a222c;
+  background-color: transparent;
+  border: 1px solid #1a222c;
+  border-radius: 10px;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .3s ease-out, background-color .3s ease-out, border-color .3s ease-out;
+}
+
+.publications-link:active, .publications-link:hover {
   background-color: #54516a;
   border-color: #54516a;
   color: #fff;

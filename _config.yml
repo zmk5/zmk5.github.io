@@ -6,15 +6,19 @@ description: A blog for robotics topics!
 
 # User settings
 username: Zahi Kakish
-user_description: Bicycle rights irony actually neutra typewriter lyft. Man bun taxidermy put a bird on it, umami yr ramps pop-up ugh bushwick chia lo-fi. Occupy bitters pour-over snackwave you probably haven't heard of them small batch. Cornhole mustache man bun letterpress echo park VHS.
+user_description: My name is Zahi Kakish and I am Mechanical Engineering Ph.D candidate under Dr. Spring Berman specializing in swarm robotics, swarm intelligence, graph theory, and ML/AI.
+robotics_description: My research has led me utilize multiple tools for building robots. My favorite is ROS (Robot Operating System), which I used to build and run a swarm robotics platform.
+code_description: Though I am a Mechanical Engineer, I have had a strong love of coding. My work has given me a lot of opportunities to refine my skills in many languages, but my favorite are C++ and Python.
+machine_learning_description: Intelligence is required from the smallest to the biggest robots. ML/AI provides exciting avenues towards truly autonomous collective systems.
 user_title: Roboticist
 email: zkakish@gmail.com
-twitter_username: lorem_ipsum
 github_username:  zmk5
-gplus_username:  lorem_ipsum
 
 markdown: kramdown
 highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
 
 # Google-analytics
 google-analytics:
