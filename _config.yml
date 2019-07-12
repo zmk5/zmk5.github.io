@@ -1,27 +1,40 @@
-# Site settings
-title: Zahi Kakish - Roboticist
-description: A blog for robotics topics!
-# baseurl: "/particle" # the subpath of your site, e.g. /blog
-# url: "localhost:3000" # the base hostname & protocol for your site e.g. http://willianjusten.com.br
+# visit https://github.com/mojombo/jekyll/wiki/Configuration for more settings
 
-# User settings
-username: Zahi Kakish
-user_description: My name is Zahi Kakish and I am Mechanical Engineering Ph.D candidate under Dr. Spring Berman specializing in swarm robotics, swarm intelligence, graph theory, and ML/AI.
-robotics_description: My research has led me utilize multiple tools for building robots. My favorite is ROS (Robot Operating System), which I used to build and run a swarm robotics platform.
-code_description: Though I am a Mechanical Engineer, I have had a strong love of coding. My work has given me a lot of opportunities to refine my skills in many languages, but my favorite are C++ and Python.
-machine_learning_description: Intelligence is required from the smallest to the biggest robots. ML/AI provides exciting avenues towards truly autonomous collective systems.
-user_title: Roboticist
-email: zkakish@gmail.com
-github_username:  zmk5
-
-markdown: kramdown
+paginate: 10 # pagination based on number of posts
+paginate_path: "page:num"
+exclude: ["README.md"] # files to exclude
 highlighter: rouge
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
+markdown: kramdown
+# disqus: zmk5
+google_analytics: zmk5
+title: zmk5
 
-# Google-analytics
-google-analytics:
-  id: ""
+defaults:
+  -
+    scope:
+      path: "" # empty string for all files
+    values:
+      title: zmk5
 
-exclude: ['package.json', 'src' , 'node_modules']
+description: Stylish Jekyll Theme
+author:
+  name: Zahi Kakish
+  email: zkakish@gmail.com
+  github: zmk5
+  twitter: zahi_kakish
+  # pinterest: asd123
+  linkedin: zahi-kakish-0b6a6694
+  bio: Roboticist, PhD Candidate
+  email_md5: 726351295ec82e145928582f595aa3aa
+
+rss_path: feed.xml
+categories_path: categories.html
+tags_path: tags.html
+
+# set it as url of an image
+# sidebar_background_image: https://www.dropbox.com/s/g9h23zrycedxtk5/sky.png?raw=1
+
+BASE_PATH:
+
+plugins:
+  - jekyll-paginate
