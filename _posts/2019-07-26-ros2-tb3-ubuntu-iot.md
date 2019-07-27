@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Setting-up the Turtlebot3 with ros2 on Ubuntu Server IoT 18.04
-categories: [guide]
+categories: [general, guide]
 tags: [ros2, ubuntu]
 fullview: true
 comments: false
