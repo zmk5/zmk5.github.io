@@ -15,7 +15,9 @@ NOTE: If you are not comfortable with just using a terminal, I suggest installin
 
 ### Step 1: Download and Install Ubuntu Server IoT 18.04
 
-You can get it from this link [here](https://ubuntu.com/download/iot/raspberry-pi-2-3). Make sure to download the Raspberry Pi 3 version. The 32-bit version that is normally downloaded from Ubuntu Mate is 32-bit, but that won't work with this distro.
+You can get it from this link [here](https://ubuntu.com/download/iot/raspberry-pi-2-3). Make sure to download the Raspberry Pi 3 version!
+
+As an aside, the Ubuntu Mate image for the Raspberry Pi 3 version that is 32-bit, but that won’t work with this distro. Only the Raspberry Pi 2 version of Ubuntu Server IoT is 32-bit. I tried that version with the Raspberry Pi 3 and it won’t boot past the color screen.
 
 ### Step 2: Start the OS on the Turtlebot3
 
