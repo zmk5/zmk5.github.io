@@ -42,6 +42,8 @@ This is pretty straightforward, but one interesting thing about this is that the
 
 An approach that does work, and if you are ok with using the `robot_state_publisher`, is to add the robot within the world file, like [this](https://github.com/ROBOTIS-GIT/turtlebot3_simulations/blob/ros2/turtlebot3_gazebo/worlds/empty_worlds/burger.model), and using a launch file to start it alongside gazebo like [this](https://github.com/ROBOTIS-GIT/turtlebot3_simulations/blob/ros2/turtlebot3_gazebo/launch/empty_world.launch.py). Both example files are from Robotis' ros2 simulation package located [here](https://github.com/ROBOTIS-GIT/turtlebot3_simulations/tree/ros2). This is a great resource for learning how to use ros2 using their platform.
 
+&nbsp;
+
 ### Node for Spawning Your Own Entities
 
 Instead of using a service call or generating a `.world` file containing the robot, you can create a node that can place robots in gazebo and use them in a launch file. For this example, I'm going to assume you have the turtlebot3 ros2 files [installed and setup](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#setup) and have done the simulations section of the [guide](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#simulation). To start, go into the `src` folder of the ros2 workspace that you created for the turtlebot3 (As an additional assumption, I will assume the workspace is the same name as the one created in the turtlebot3 guide):
@@ -133,6 +135,8 @@ robot_spawner_pkg/
 
 Within the second `robot_spwaner_pkg` folder will we be placing our `spawn_turtlebot.py` file!
 
+&nbsp;
+
 ### The Robot Spawner Script
 
 In this node, we will essentially be making the service call within the node like the following:
@@ -200,7 +204,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
+
 {% endhighlight %}
 
 I want to give credit to Dirk Thomas (can't seem to find the link to the code...) for this, because it is a modification of his code that inspired me to do this. Now build using `colcon`, source the install, and export the path to the turtlebot3 model like this:

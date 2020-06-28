@@ -13,15 +13,21 @@ One of the cool things about ros2 is that ROS Master is finally gone. The new DD
 
 NOTE: If you are not comfortable with just using a terminal, I suggest installing Ubuntu Mate 18.04 instead. Make sure to download and install the `armhf` version!
 
+&nbsp;
+
 ### Step 1: Download and Install Ubuntu Server IoT 18.04
 
 You can get it from this link [here](https://ubuntu.com/download/iot/raspberry-pi-2-3). Make sure to download the Raspberry Pi 3 version!
 
 As an aside, the Ubuntu Mate image for the Raspberry Pi 3 version that is 32-bit, but that won’t work with this distro. Only the Raspberry Pi 2 version of Ubuntu Server IoT is 32-bit. I tried that version with the Raspberry Pi 3 and it won’t boot past the color screen.
 
+&nbsp;
+
 ### Step 2: Start the OS on the Turtlebot3
 
 Insert the microSD card into the slot on the Raspberry Pi 3 and begin the boot up process. It will go through the whole configuration and you will reach the login screen which is just the bash shell. The login is `ubuntu` and the password is `ubuntu`. Once entered you will be greeted with an option to change the password. Do it since it is much more secure this way.
+
+&nbsp;
 
 ### Step 3: Change the Device's Hostname
 
@@ -36,6 +42,8 @@ NOTE: When I use `< >`, in a command, it typically means you **do not** use them
 ```bash
 ~$ hostnamectl set-hostname my-new-tb3-hostname
 ```
+
+&nbsp;
 
 ### Step 4: Create a New Username
 
@@ -69,6 +77,8 @@ The above command gives the new username `sudoer` permissions by adding them to 
 Not all of these groups are useful or needed (I have yet to see a turtlebot with a `floppy` drive lol), but I added them just to stay on the safe side.
 
 Once this is done, reboot using the `reboot` command and login using the new username.
+
+&nbsp;
 
 ### Step 5: Configure Static IP
 
@@ -120,6 +130,8 @@ Finally, apply the new network configuration using this command:
 ~$ sudo netplan apply
 ```
 
+&nbsp;
+
 ### Step 6: Tweak systemd
 
 For some reason, the OS will attempt to configure a network IP at startup. This can delay boot-up by up to 5 minutes. So to prevent this, we are going to mask this systemd process using the following command:
@@ -129,6 +141,8 @@ For some reason, the OS will attempt to configure a network IP at startup. This 
 ```
 
 Now boot-up should be super quick!
+
+&nbsp;
 
 ### Step 7: Install Turtlebot3 ros2 Packages
 
@@ -140,15 +154,21 @@ NOTE: The **Build LIDAR Client** installation is wrong. The link for the `turtle
 ~$ wget https://github.com/ROBOTIS-GIT/turtlebot3/raw/24d14d772520508e409b80c43859b7020d76bb82/turtlebot3_lidar/turtlebot3_lidar.tar.bz2
 ```
 
+&nbsp;
+
 ### Step 8: Install Update to OpenCR Board
 
 Next, you will have to update the OpenCR board to use ros2. The guide to do that is provided [here](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#opencr-setup) The issue with this is that Ubuntu Server IoT 18.04 is 64-bit arm OS. The drivers provided by ROBOTIS can only be applied by a 32-bit arm OS. I raised an issue [here](https://github.com/ROBOTIS-GIT/turtlebot3/issues/455) on there GitHub page, so they might provide one in the future.
 
 For now, the best thing you can do is get a spare Ubuntu Mate `armhf` microSD card and use that to install the new updated OpenCR Drivers. They also provide `x86` drivers, so you can connect your laptop to the OpenCR board and install the drivers with that too.
 
+&nbsp;
+
 ### Step 9: Install ros2
 
 Follow the binary installation guide found [here](https://index.ros.org/doc/ros2/Installation/Dashing/Linux-Install-Debians/).
+
+&nbsp;
 
 ### Step 10: Edit .bashrc File
 

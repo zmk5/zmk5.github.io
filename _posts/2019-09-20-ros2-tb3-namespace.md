@@ -9,10 +9,11 @@ comments: false
 
 ### Introduction
 
-As I was working on my ICRA paper, I noticed that ROBOTIS doesn't provided a guide on how to run multiple TurtleBot3 robots together. It is especially dangerous if you run them in the same network because they all run on the same topic names and node names, which can interfere with their individual operation. So to help run multiple TurtleBots on the same network, you need to give each robot a unique namespace. The following guide will show you how to do this for the TurtleBot3. 
+As I was working on my ICRA paper, I noticed that ROBOTIS doesn't provided a guide on how to run multiple TurtleBot3 robots together. It is especially dangerous if you run them in the same network because they all run on the same topic names and node names, which can interfere with their individual operation. So to help run multiple TurtleBots on the same network, you need to give each robot a unique namespace. The following guide will show you how to do this for the TurtleBot3.
 
 For this guide, we will be using `tb3_0` as the namespace we wish to use for our TurtleBot3 Burger robot. This helps us number our robots easier when running multiple robot experiments. This guide also assumes you have followed the procedure located [here](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#sbc-setup) for installing and setting up your TurtleBot3 with ros2!
 
+&nbsp;
 
 ### Step 1: Create a New ros2 Package
 
@@ -38,6 +39,7 @@ Change into the `launch` directory and create a new bringup launch file.
 ~$ touch my_tb3_bringup.launch.py
 ```
 
+&nbsp;
 
 ### Step 2: Copy and Modify Contents from the TB3 Bringup Package into Your Package
 
@@ -191,6 +193,7 @@ def generate_launch_description():
     ])
 ```
 
+&nbsp;
 
 ### Step 3: Modify the Parameter YAML File
 
@@ -242,12 +245,13 @@ As you can see, the top most parameter used to be the node name (`turtlebot3_nod
 
 In Step 2, we already changed the launch file to point to *this* yaml file instead of the one located in the `turtlebot3_bringup` package.
 
+&nbsp;
 
 ### Step 4: Modify the CMakeLists File
 
 For this section, we will just be adding a small code snipet to our `CMakeLists.txt` that will install the `launch` and `param` contents of our `my_tb3_launcher` package.
 
-```
+```bash
 ...
 install(DIRECTORY
   launch
@@ -259,8 +263,9 @@ install(DIRECTORY
 
 Add this snippet right before the `if(BUILD_TESTING)` section of the `CMakeLists.txt` file.
 
+&nbsp;
 
-### Step 5: Compile and Run!
+### Step 5: Compile and Run
 
 Finally, compile the code on your TurtleBot3:
 
@@ -279,7 +284,7 @@ Now, run your launch file to make sure it works!
 
 You should get the following topics when you run `ros2 topic list` in another bash session:
 
-```
+```bash
 /tb3_0/battery_state
 /tb3_0/cmd_vel
 /tb3_0/imu
