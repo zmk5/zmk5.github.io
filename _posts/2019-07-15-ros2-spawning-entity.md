@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Spawning Robots in Gazebo with ros2
 categories: [general, demo]
 tags: [ros2, vscode, macOS]
