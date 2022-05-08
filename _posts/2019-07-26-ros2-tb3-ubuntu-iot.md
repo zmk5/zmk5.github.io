@@ -5,6 +5,7 @@ categories: [general, guide]
 tags: [ros2, ubuntu]
 fullview: true
 comments: false
+classes: wide
 ---
 
 ### Introduction

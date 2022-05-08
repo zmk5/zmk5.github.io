@@ -5,6 +5,7 @@ categories: [general, guide]
 tags: [ros2, macOS]
 fullview: true
 comments: false
+classes: wide
 ---
 
 ### Intoduction
