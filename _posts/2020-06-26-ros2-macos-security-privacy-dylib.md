@@ -1,10 +1,11 @@
 ---
-layout: post
+layout: single
 title: dylib Authorization with a ROS2 Foxy Binary Install in Newer Versions of macOS
 categories: [general, guide]
 tags: [ros2, macOS]
 fullview: true
 comments: false
+classes: wide
 ---
 
 ### Intoduction

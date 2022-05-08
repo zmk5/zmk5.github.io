@@ -1,10 +1,11 @@
 ---
-layout: post
+layout: single
 title: Giving a TurtleBot3 a Namespace for Multi-Robot Experiments
 categories: [general, guide]
 tags: [ros2, turtlebot]
 fullview: true
 comments: false
+classes: wide
 ---
 
 ### Introduction
