@@ -91,4 +91,32 @@ Install `MangDang` components
 ~$ bash install.sh
 ```
 
-Finally, restart your system and you'll notice that your Mini Pupper's eyes will light up greating you with a successful installation!
+## Enable PWM access to `ubuntu` user
+
+This is a modification of the solution [here](https://github.com/raspberrypi/linux/issues/1983). First, create a `/etc/udev/rules.d/99-com.rules` suing `sudo`:
+
+```bash
+~$ sudo nano /etc/udev/rules.d/99-com.rules
+```
+
+And fill with the following:
+
+```
+SUBSYSTEM=="pwm*", PROGRAM="/bin/sh -c '\
+	  	    chown -R root:gpio /sys/class/pwm && chmod -R 770 /sys/class/pwm;\
+	  	    chown -R root:gpio /sys/class/pwm/pwmchip0/pwm* && chmod -R 770 /sys/class/pwm/pwmchip0/pwm*;\
+	  	    chown -R root:gpio /sys/devices/platform/soc/*.pwm/pwm/pwmchip* && chmod -R 770 /sys/devices/platform/soc/*.pwm/pwm/pwmchip*\
+'"
+```
+
+Save, reload rules, and then reboot:
+
+```bash
+~$ sudo udevadm control --reload-rules
+~$ sudo udevadm trigger
+~$ sudo reboot
+```
+
+This will enable the Pupper to use PWM without needing root access since we are now giving the group `gpio` access to PWM.
+
+Finally, when your system restarts you'll notice that your Mini Pupper's eyes will light up greeting you with a successful installation!
