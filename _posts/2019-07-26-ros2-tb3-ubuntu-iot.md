@@ -1,6 +1,6 @@
 ---
 layout: single
-title: Setting-up the Turtlebot3 with ros2 on Ubuntu Server IoT 18.04
+title: Setting-up the Turtlebot3 with ROS 2 on Ubuntu Server IoT 18.04
 categories: [general, guide]
 tags: [ros2, ubuntu]
 fullview: true
@@ -8,9 +8,8 @@ comments: false
 classes: wide
 ---
 
-### Introduction
 
-One of the cool things about ros2 is that ROS Master is finally gone. The new DDS approach allows for interesting ways of controlling multiple autonomous agents without having to rely on a centralized ROS Master running the show. For this guide, I'll show you how to set up ros2 on a Turtlebot3 burger or waffle using Ubuntu Server IoT 18.04. Why use this instead of Ubuntu Mate 18.04 like the Turtlebot guide suggests? Well, I've run into a lot of problems during the installation and its just kind of bloated. I don't Firefox, VLC, Thunderbird, Libreoffice etc. All I need is just a bash shell because I'm going to be writing most of the code for it on a different computer anyways. So let's start!
+One of the cool things about ROS 2 is that ROS Master is finally gone. The new DDS approach allows for interesting ways of controlling multiple autonomous agents without having to rely on a centralized ROS Master running the show. For this guide, I'll show you how to set up ROS 2 on a Turtlebot3 burger or waffle using Ubuntu Server IoT 18.04. Why use this instead of Ubuntu Mate 18.04 like the Turtlebot guide suggests? Well, I've run into a lot of problems during the installation and its just kind of bloated. I don't Firefox, VLC, Thunderbird, Libreoffice etc. All I need is just a bash shell because I'm going to be writing most of the code for it on a different computer anyways. So let's start!
 
 NOTE: If you are not comfortable with just using a terminal, I suggest installing Ubuntu Mate 18.04 instead. Make sure to download and install the `armhf` version!
 
@@ -133,9 +132,9 @@ Finally, apply the new network configuration using this command:
 
 &nbsp;
 
-### Step 6: Tweak systemd
+### Step 6: Tweak `systemd`
 
-For some reason, the OS will attempt to configure a network IP at startup. This can delay boot-up by up to 5 minutes. So to prevent this, we are going to mask this systemd process using the following command:
+For some reason, the OS will attempt to configure a network IP at startup. This can delay boot-up by up to 5 minutes. So to prevent this, we are going to mask this `systemd` process using the following command:
 
 ```bash
 ~$ systemctl mask systemd-networkd-wait-online.service
@@ -145,9 +144,9 @@ Now boot-up should be super quick!
 
 &nbsp;
 
-### Step 7: Install Turtlebot3 ros2 Packages
+### Step 7: Install Turtlebot3 ROS 2 Packages
 
-Next, we are going to install the Turtlebot3 ros2 packages. Instructions are found [here](http://emanual.robotis.com/docs/en/popup/turtlebot3_ros2_sbc_setting/). These are not downloadable through the ros2 repositories yet, so you will need to compile many of these. Just a little heads up, the Micro-XRCE-DDS-Agent installation takes the longest because it will compile third party packages too. Everything afterwards is pretty quick.
+Next, we are going to install the Turtlebot3 ROS 2 packages. Instructions are found [here](http://emanual.robotis.com/docs/en/popup/turtlebot3_ros2_sbc_setting/). These are not downloadable through the ROS 2 repositories yet, so you will need to compile many of these. Just a little heads up, the Micro-XRCE-DDS-Agent installation takes the longest because it will compile third party packages too. Everything afterwards is pretty quick.
 
 NOTE: The **Build LIDAR Client** installation is wrong. The link for the `turtlebot3_lidar.tar.bz2` driver is broken and according to [this](https://github.com/ROBOTIS-GIT/turtlebot3/issues/446#issuecomment-508293951) issue, they are attempting to fix the problem. In the meantime, you can use the Crystal Clemmys driver. The command to download that is this:
 
@@ -159,13 +158,13 @@ NOTE: The **Build LIDAR Client** installation is wrong. The link for the `turtle
 
 ### Step 8: Install Update to OpenCR Board
 
-Next, you will have to update the OpenCR board to use ros2. The guide to do that is provided [here](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#opencr-setup) The issue with this is that Ubuntu Server IoT 18.04 is 64-bit arm OS. The drivers provided by ROBOTIS can only be applied by a 32-bit arm OS. I raised an issue [here](https://github.com/ROBOTIS-GIT/turtlebot3/issues/455) on there GitHub page, so they might provide one in the future.
+Next, you will have to update the OpenCR board to use ROS 2. The guide to do that is provided [here](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#opencr-setup) The issue with this is that Ubuntu Server IoT 18.04 is 64-bit arm OS. The drivers provided by ROBOTIS can only be applied by a 32-bit arm OS. I raised an issue [here](https://github.com/ROBOTIS-GIT/turtlebot3/issues/455) on there GitHub page, so they might provide one in the future.
 
 For now, the best thing you can do is get a spare Ubuntu Mate `armhf` microSD card and use that to install the new updated OpenCR Drivers. They also provide `x86` drivers, so you can connect your laptop to the OpenCR board and install the drivers with that too.
 
 &nbsp;
 
-### Step 9: Install ros2
+### Step 9: Install ROS 2
 
 Follow the binary installation guide found [here](https://index.ros.org/doc/ros2/Installation/Dashing/Linux-Install-Debians/).
 
@@ -176,7 +175,7 @@ Follow the binary installation guide found [here](https://index.ros.org/doc/ros2
 Since I use the turtlebots for a multi-agent configuration, a nice way of having multiple robots interact in the network easier is to have all the devices use the same `ROS_DOMAIN_ID`. You can add a value to it on startup by adding it to your `.bashrc` file like this:
 
 ```bash
-# ros2 source information
+# ROS 2 source information
 source /opt/ros/dashing/setup.bash
 export ROS_DOMAIN_ID=42
 ```

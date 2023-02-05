@@ -1,6 +1,6 @@
 ---
 layout: single
-title: Spawning Robots in Gazebo with ros2
+title: Spawning Robots in Gazebo with ROS 2
 categories: [general, demo]
 tags: [ros2, vscode, macOS]
 fullview: true
@@ -8,9 +8,7 @@ comments: false
 classes: wide
 ---
 
-### Introduction
-
-Now that ros2 has done away with the old way of launching nodes (i.e. using XML `.launch` files), the process has become more stream-lined and versatile than ever before thanks to using Python. The new launch system can, however, be confusing to use the first time, and I'm probably going to do a deep-dive on it. For this blog post, I want to touch on something that is kind of missing from the old approach to the new one: spawning robots into Gazebo.
+Now that ROS 2 has done away with the old way of launching nodes (i.e. using XML `.launch` files), the process has become more stream-lined and versatile than ever before thanks to using Python. The new launch system can, however, be confusing to use the first time, and I'm probably going to do a deep-dive on it. For this blog post, I want to touch on something that is kind of missing from the old approach to the new one: spawning robots into Gazebo.
 
 The old way of doing it was just to use an xml tag like this
 
@@ -27,7 +25,7 @@ The old way of doing it was just to use an xml tag like this
 </launch>
 {% endhighlight %}
 
-As you can see (or remember if you have done this before), the old spawner is a node that can be called and provided arguments. I'm not sure what the main way of doing this in ros2 is, but according to Louise Poubel ([@chapulinaBR](https://twitter.com/chapulinaBR)) in this [ros2 migration guide](https://github.com/ros-simulation/gazebo_ros_pkgs/wiki/ROS-2-Migration:-Spawn-and-delete) it is kind of hinted that the official node approach is out. The best way to spawn a robot in Gazebo is to use a service call to `spawn_entity` for both urdf and sdf files. It looks something like this for sdf:
+As you can see (or remember if you have done this before), the old spawner is a node that can be called and provided arguments. I'm not sure what the main way of doing this in ROS 2 is, but according to Louise Poubel ([@chapulinaBR](https://twitter.com/chapulinaBR)) in this [ROS 2 migration guide](https://github.com/ros-simulation/gazebo_ros_pkgs/wiki/ROS-2-Migration:-Spawn-and-delete) it is kind of hinted that the official node approach is out. The best way to spawn a robot in Gazebo is to use a service call to `spawn_entity` for both urdf and sdf files. It looks something like this for sdf:
 
 {% highlight bash %}
 ~$ ros2 service call /spawn_entity 'gazebo_msgs/SpawnEntity' '{name: "sdf_ball", xml: "<?xml version=\"1.0\" ?><sdf version=\"1.5\"><model name=\"will_be_ignored\"><static>true</static><link name=\"link\"><visual name=\"visual\"><geometry><sphere><radius>1.0</radius></sphere></geometry></visual></link></model></sdf>"}'
@@ -41,13 +39,13 @@ and this for urdf:
 
 This is pretty straightforward, but one interesting thing about this is that the urdf or sdf file need to be given as the *xml* and not the *path* to the xml file. So if you have something a robot file that is super long this approach might not work for you.
 
-An approach that does work, and if you are ok with using the `robot_state_publisher`, is to add the robot within the world file, like [this](https://github.com/ROBOTIS-GIT/turtlebot3_simulations/blob/ros2/turtlebot3_gazebo/worlds/empty_worlds/burger.model), and using a launch file to start it alongside gazebo like [this](https://github.com/ROBOTIS-GIT/turtlebot3_simulations/blob/ros2/turtlebot3_gazebo/launch/empty_world.launch.py). Both example files are from Robotis' ros2 simulation package located [here](https://github.com/ROBOTIS-GIT/turtlebot3_simulations/tree/ros2). This is a great resource for learning how to use ros2 using their platform.
+An approach that does work, and if you are ok with using the `robot_state_publisher`, is to add the robot within the world file, like [this](https://github.com/ROBOTIS-GIT/turtlebot3_simulations/blob/ros2/turtlebot3_gazebo/worlds/empty_worlds/burger.model), and using a launch file to start it alongside gazebo like [this](https://github.com/ROBOTIS-GIT/turtlebot3_simulations/blob/ros2/turtlebot3_gazebo/launch/empty_world.launch.py). Both example files are from Robotis' ROS 2 simulation package located [here](https://github.com/ROBOTIS-GIT/turtlebot3_simulations/tree/ros2). This is a great resource for learning how to use ROS 2 using their platform.
 
 &nbsp;
 
 ### Node for Spawning Your Own Entities
 
-Instead of using a service call or generating a `.world` file containing the robot, you can create a node that can place robots in gazebo and use them in a launch file. For this example, I'm going to assume you have the turtlebot3 ros2 files [installed and setup](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#setup) and have done the simulations section of the [guide](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#simulation). To start, go into the `src` folder of the ros2 workspace that you created for the turtlebot3 (As an additional assumption, I will assume the workspace is the same name as the one created in the turtlebot3 guide):
+Instead of using a service call or generating a `.world` file containing the robot, you can create a node that can place robots in gazebo and use them in a launch file. For this example, I'm going to assume you have the turtlebot3 ROS 2 files [installed and setup](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#setup) and have done the simulations section of the [guide](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#simulation). To start, go into the `src` folder of the ROS 2 workspace that you created for the turtlebot3 (As an additional assumption, I will assume the workspace is the same name as the one created in the turtlebot3 guide):
 
 ```bash
 ~$ cd ~/turtlebot3_ws/src

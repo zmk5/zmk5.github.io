@@ -8,7 +8,7 @@ comments: false
 classes: wide
 ---
 
-## Intoduction
+After playing with the Mini Pupper for a while, I noticed there isn't a straight-forward guide to configuring a Ubuntu ARM desktop image for it. The following should help users set up an Ubuntu Mate installation for use with a Mini Pupper.
 
 ## Install the OS and Raspberry Pi Dependencies
 

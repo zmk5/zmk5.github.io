@@ -1,6 +1,6 @@
 ---
 layout: single
-title: dylib Authorization with a ROS2 Foxy Binary Install in Newer Versions of macOS
+title: dylib Authorization with a ROS 2 Foxy Binary Install in Newer Versions of macOS
 categories: [general, guide]
 tags: [ros2, macOS]
 fullview: true
@@ -10,7 +10,7 @@ classes: wide
 
 ### Intoduction
 
-One of the issues I've run into using the binary installation of ROS2 Foxy on macOS (Catalina and newer) is you have to allow all the `dylib` files one...by...one...because they are not by *"identified developers"*. Since the OSR group are not distributing signed binaries, macOS will try and be extra careful and not allow these `dylib`s to run. This is smart and secure behavior by the OS but it'is kind of annoying especially when you are a developer and you know exactly what you are running. If you installed ROS2 Foxy using a source installation, this behavior doesn't happen since **YOU** are the developer because you compiled the binary on your own system.
+One of the issues I've run into using the binary installation of ROS 2 Foxy on macOS (Catalina and newer) is you have to allow all the `dylib` files one...by...one...because they are not by *"identified developers"*. Since the OSR group are not distributing signed binaries, macOS will try and be extra careful and not allow these `dylib`s to run. This is smart and secure behavior by the OS but it'is kind of annoying especially when you are a developer and you know exactly what you are running. If you installed ROS 2 Foxy using a source installation, this behavior doesn't happen since **YOU** are the developer because you compiled the binary on your own system.
 
 To get around this, you have to allow every `dylib` used by the program binary, which can be confusing to newcomers since there is no option to override this behavior. The following guide will show you how to override this.
 

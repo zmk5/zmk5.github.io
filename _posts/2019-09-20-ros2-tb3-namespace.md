@@ -8,15 +8,13 @@ comments: false
 classes: wide
 ---
 
-### Introduction
-
 As I was working on my ICRA paper, I noticed that ROBOTIS doesn't provided a guide on how to run multiple TurtleBot3 robots together. It is especially dangerous if you run them in the same network because they all run on the same topic names and node names, which can interfere with their individual operation. So to help run multiple TurtleBots on the same network, you need to give each robot a unique namespace. The following guide will show you how to do this for the TurtleBot3.
 
-For this guide, we will be using `tb3_0` as the namespace we wish to use for our TurtleBot3 Burger robot. This helps us number our robots easier when running multiple robot experiments. This guide also assumes you have followed the procedure located [here](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#sbc-setup) for installing and setting up your TurtleBot3 with ros2!
+For this guide, we will be using `tb3_0` as the namespace we wish to use for our TurtleBot3 Burger robot. This helps us number our robots easier when running multiple robot experiments. This guide also assumes you have followed the procedure located [here](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/#sbc-setup) for installing and setting up your TurtleBot3 with ROS 2!
 
 &nbsp;
 
-### Step 1: Create a New ros2 Package
+### Step 1: Create a New ROS 2 Package
 
 Start by changing into your `src` directory of your workspace that also contains the `turtlebot3` and `utils` packages provided by ROBOTIS.
 
@@ -44,7 +42,7 @@ Change into the `launch` directory and create a new bringup launch file.
 
 ### Step 2: Copy and Modify Contents from the TB3 Bringup Package into Your Package
 
-In the `turtlebot3/turtlebot3_bringup` ros2 package, copy the contents of `robot.launch.py` into the `my_tb3_bringup.launch.py` with the following changes marked as `# comments` in the following code:
+In the `turtlebot3/turtlebot3_bringup` ROS 2 package, copy the contents of `robot.launch.py` into the `my_tb3_bringup.launch.py` with the following changes marked as `# comments` in the following code:
 
 ```python
 import os
@@ -276,7 +274,7 @@ Finally, compile the code on your TurtleBot3:
 ~$ . install/setup.bash
 ```
 
-Now, run your launch file to make sure it works! 
+Now, run your launch file to make sure it works!
 
 ```bash
 ~$ export TURTLEBOT3_MODEL=burger
