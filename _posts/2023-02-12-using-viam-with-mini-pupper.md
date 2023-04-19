@@ -176,7 +176,7 @@ from viam.robot.client import RobotClient
 
 
 async def connect_to_viam_server() -> RobotClient:
-    """Connect to Viam Server for controller."""
+    """Connect to Viam Server."""
     opts = RobotClient.Options(dial_options=DialOptions(insecure=True))
     return await RobotClient.at_address("127.0.0.1:8080", opts)
 
@@ -205,6 +205,21 @@ from viam.robot.client import RobotClient
 The `Arm` class takes two arguments: the `robot` object and the name of the component as defined in the JSON file used with the `viam-server`. This prevents any errors caused by using multiple components of the same type. After defining our arm, we issue a command. The [arm component](https://docs.viam.com/components/arm/#api) has a pre-defined set of functions to manipulate the robot. the one we will use here is the `move_to_postion` call that takes a `Pose` proto argument. Though our inputs are nonsensical, this would issues a command to the arm if we had one connected. Other calls suchs as `get_end_position` will return the `Pose` proto with the arm's current position.
 
 With this, we can devise control loops to maintain a certain functionality from our robot. As long as the `robot` variable contains the `RobotClient` within scope, the client will always have access to the different components and services that the `viam-server` is configured to provide.
+
+Additionally, if we have a custom component running on a *remote* server we can access it in the same manner as the `viam-server`.
+
+```python
+async def connect_to_remote() -> RobotClient:
+    """Connect to custom remote server for robot components."""
+    opts = RobotClient.Options(dial_options=DialOptions(insecure=True))
+    return await RobotClient.at_address("localhost:9090", opts)
+
+...
+
+robot_custom = await connect_to_remote()
+```
+
+When running the *remote* server, it should spit out an address that it serves these custom components. Make sure to use that address when connecting your `RobotClient` to it. Now you can use this, like above, to attach `robot_custom` to your custom hardware pieces.
 
 ## Running the Mini Pupper
 
@@ -276,12 +291,17 @@ Now the `viam-server` and our client has access to our custom components.
 
 ### Fourth Terminal Window: Starting our client script
 
+Finally, we can run our control loop contained in the `client.py`. This file will connect to our `viam-server` and our custom component remote server to control the legs of the Mini Pupper using a playstation controller.
 
+```bash
+~$ cd viam_minipupper_py
+~$ python3 client.py
+```
 
-## Disadvantages
+Thats it! We have a working robotic pupper using Viam now!
 
-While my time using the platform has been fun, I do notice some drawbacks. They do have a bit of catching up to ROS' middleware offerings. In particular, visualization tools like RViz and a decent simulation interface for something like Gazebo, Unity, or, my underdog favorite, Webots. The Simulation and RViz functionality isn't that big of a deal since extensions and plugins could enable them to work with the Viam RDK.
+## Summary and Other Thoughts
 
-## Conclusion
+While my time using the platform has been fun, I do notice some drawbacks though. They do have a bit of catching up to ROS' middleware offerings. In particular, visualization tools like RViz and a decent simulation interface for something like Gazebo, Unity, or, my underdog favorite, [Webots. The Simulation and RViz functionality isn't that big of a deal since extensions and plugins could enable them to work with the Viam RDK. Another interesting drawback is the lack of a luanch file-like system; however, using the Viam online app for configuration allows you to do all this at once.
 
-I always tell people that their isn't just one way to do something. Design choices have positives and negatives depending on the application for which we wish to use it. For those who are new to robotics, I think this is an interesting starting point for people compelled by a component-based architecture rather than a computational graph. This may also appeal to experts who want to ommercialize their system for **SOMETHING**. Who I think this would really appeal to are those trying to create web-based frontend solution. In the end, Viam is a fascinating new platform for robotic systems and I wish them continued success. More competition in this space is good. Even for robotics!
+I always tell people that their isn't just one way to do something. Design choices have positives and negatives depending on the application for which we wish to use it. For those who are new to robotics, I think this is an interesting starting point for people compelled by a component-based architecture rather than a computational graph. This may also appeal to experts who want to commercialize their system for use similar to how Boston Dynamics does it. Who I think this would really appeal to are those trying to create web-based frontend solution. First-party TypeScript support would be huge to making web-based applications. In the end, Viam is a fascinating new platform for robotic systems and I wish them continued success. More competition in this space is good. Even for robotics!
