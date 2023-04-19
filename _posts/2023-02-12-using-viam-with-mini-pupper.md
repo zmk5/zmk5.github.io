@@ -8,11 +8,11 @@ comments: false
 classes: wide
 ---
 
-Having used [ROS](https://ros.org) for many years now, I've always been curious how other programming middlewares would work in comparison such as a new or different paradigm of structring robotic software, hardware, *etc.*. However, there doesn't seem to be many alternatives. The biggest I could find was [YARP](https://yarp.it/latest/) which I had known about for some time but never tried (Maybe another blog post in the future!). The seocond closest I found was [LCM](https://github.com/lcm-proj/lcm) which isn't being maintained anymore. Others seem like small projects tied to their respective goal/task in mind. I did, however, stumble upon one that caught my eye by the startup Viam called simply the *Robot Development Kit* ([RDK](https://github.com/viamrobotics/rdk)).
+Having used [ROS](https://ros.org) for many years now, I've always been curious how other programming middlewares would work in comparison such as a new or different paradigm of structring robotic software, hardware, *etc.*. However, there doesn't seem to be many alternatives. The biggest I could find was [YARP](https://yarp.it/latest/) which I had known about for some time but never tried (Maybe another blog post in the future!). The second closest I found was [LCM](https://github.com/lcm-proj/lcm) which isn't being maintained anymore. Others seem like small projects tied to their respective goal/task in mind. I did, however, stumble upon one that caught my eye by the startup Viam called simply the *Robot Development Kit* ([RDK](https://github.com/viamrobotics/rdk)).
 
 ## Features
 
-This is an interesting framework when compared to ROS and ROS 2. Instead of being written in C and have official generated interfaces for C++ and Python like ROS 2, the RDK is written in Golang with official SDK support for Python and [Rust](https://www.youtube.com/watch?v=7VHbSCJyxyE). The middleware interface/message communication protocol differs too. Instead of TCPROS or DDS, this solution uses [gRPC](https://grpc.io/), which is probably how they can support the other languages for the SDK.
+This is an interesting framework when compared to ROS and ROS 2. Instead of being written in C and have official generated interfaces for C++ and Python like ROS 2, the RDK is written in Golang with official SDK support for Python, C++, TypeScript, and [Rust](https://www.youtube.com/watch?v=7VHbSCJyxyE). The middleware interface/message communication protocol differs too. Instead of TCPROS or DDS, this solution uses [gRPC](https://grpc.io/) along with [protobuf](https://github.com/protocolbuffers/protobuf) for generating APIs for each language to support their respective SDK.
 
 A lot of this is in service of using their [web interface](https://app.viam.com) that users interact with to manage their robot, visualize performance, use WebRTC to get streaming output, and even write code to run. For those that prefer local solutions, you can use the RDK without touching their web offering. This is all a very compelling platform when you see that they also want to be very "*batteries included*" with robotic hardware. By that I mean a lot of motors, sensors, cameras, and so on are supported within the RDK, and by extension all the SDKs. This is all done by using a `viam-server` AppImage that is installed on a Pi or other Linux box running the robot. How this works will make sense once I discuss Viam's software architecture.
 
@@ -74,10 +74,10 @@ Other Viam hardware components can be added in a similar manner. If I want to ad
     ],
     "services": [
         {
-            "name": "yahboom-gamepad-control",
+            "name": "My Controller Service",
             "type": "base_remote_control",
             "attributes": {
-                "input_controller": "8bit-do-controller"
+                "input_controller": "PS4 Controller"
             }
         }
     ]
@@ -96,7 +96,7 @@ This can be a huge help to users not comfortable with writing robotic code on a 
 
 ## Custom Components
 
-One thing you may have noticed looking at the Mini Pupper's Viam architectural figure, is the point of a custom component? Like an OS, if you plug in new hardware into your machine you have to find or write drivers for it to use. The same applies for hardware components or configurations that aren't supported by `viam-server`. While the individual servos are supported, three servos act in unison to produce hip abduction/adduction, hip flexsion/extension, and knee flexsion/extension are not. Viam's custom components allow us to subclass one of the hardware primitives they use for their baseline componentes, which looks something what was written in `leg.py`:
+One thing you may have noticed looking at the Mini Pupper's Viam architectural figure, is the point of a custom component? Like an OS, if you plug in new hardware into your machine you have to find or write drivers for it to use. The same applies for hardware components or configurations that may not have built-in support for with the `viam-server`. While the individual servos are supported, three servos act in unison to produce hip abduction/adduction, hip flexsion/extension, and knee flexsion/extension are not. Viam's custom components allow us to subclass one of the hardware primitives they use for their baseline componentes, which looks something what was written in `leg.py`:
 
 ```python
 class PupperLeg(Arm):
@@ -167,7 +167,116 @@ class PupperLeg(Arm):
 
 Our `Leg` class subclassed Viam's `Arm` component class since some of its methods are for position and joint control similar to that of a leg. The commands I want to use are only for joint control, so I only filled the methods related to those. The others can remain blank. We put these custom components in a `componenets` folder within our [Python project](https://github.com/zmk5/viam-minipupper-py/tree/main/viam_minipupper_py/components). We can then run an additional server referred to as *remote* which will interact with our `viam-server` and be able to recieve gRPC messages from our client.
 
-## Running our MiniPupper
+## Writing our Client Application
+
+Now that we have the server portion complete, we can begin writing our client application. We do this by asking the `viam-server` for a `RobotClient` object that will allow us to connect and make calls to the robot. We can create a helper function like the below:
+
+```python
+from viam.robot.client import RobotClient
+
+
+async def connect_to_viam_server() -> RobotClient:
+    """Connect to Viam Server for controller."""
+    opts = RobotClient.Options(dial_options=DialOptions(insecure=True))
+    return await RobotClient.at_address("127.0.0.1:8080", opts)
+
+
+def main():
+    robot = await connect_to_viam_server()
+```
+
+The helper function is then assigned to the `robot` object; however, notice that we use an `await` when assigning the client to the `robot` variable. Viam makes extensive use of `async`, so it's a great idea to familiarize yourself with Python asynchronous concepts when trying to learn. We will show later that starting the `viam-server` locally will serve connections at `127.0.0.1:8080` by default. Now, we can make calls to components or services that are running on the `viam-server` as defined by our JSON config file.
+
+Now, we can use our connection to our robot. Let's say we have a robot arm connected and configured with our `viam-server` named `arm0`, we can connect it simply by linking our newly created `robot` object to an `Arm` component class as such:
+
+```python
+from viam.components.arm import Arm
+from viam.components.arm import Pose
+from viam.robot.client import RobotClient
+
+...
+
+    arm = Arm.from_robot(robot, "arm0")
+    await arm.move_to_position(Pose(x=0, y=1, z=2, o_x=3, o_y=4, o_z=5, theta=6))
+    position = await arm.get_end_position()
+    print(f"Arm position is: {position}")
+```
+
+The `Arm` class takes two arguments: the `robot` object and the name of the component as defined in the JSON file used with the `viam-server`. This prevents any errors caused by using multiple components of the same type. After defining our arm, we issue a command. The [arm component](https://docs.viam.com/components/arm/#api) has a pre-defined set of functions to manipulate the robot. the one we will use here is the `move_to_postion` call that takes a `Pose` proto argument. Though our inputs are nonsensical, this would issues a command to the arm if we had one connected. Other calls suchs as `get_end_position` will return the `Pose` proto with the arm's current position.
+
+With this, we can devise control loops to maintain a certain functionality from our robot. As long as the `robot` variable contains the `RobotClient` within scope, the client will always have access to the different components and services that the `viam-server` is configured to provide.
+
+## Running the Mini Pupper
+
+We can run our Mini Pupper with Viam now that we have a baseline understanding of how the architecture works, but, first, we must install the repository and make sure our prerequiste setup is ready per the README instructions. Once installed, we will need four terminals open or a [`tmux`](https://github.com/tmux/tmux) with four windows.
+
+### First Terminal Window: Connecting the controller
+
+We'll need to connect our controller to the Raspberry Pi to retreive key presses from the `viam-server`. First, we'll use the `bluetoothctl` tool to scan our area for bluetooth devices. Make sure to put the controller in a pairing mode while we run the following command.
+
+```bash
+~$ sudo bluetoothctl scan on
+```
+
+We should get an output that looks like this.
+
+![bluetoothctl Example](/assets/media/2023-02-12/bluetoothctl-example.png)
+
+Make sure to pay attention to the set of characters with the colons, `:`, since the address paired with the device name should be what we want to connect to. Once we know the address, we can connect using this next command.
+
+```bash
+~$ sudo bluetoothctl connect CONTROLLER_MAC_ADDRESS
+```
+
+### Second Terminal Window: Starting the `viam-server`
+
+Now that our hardware is connected, we can run the `viam-server` with our JSON config file. Add the following contents into a JSON file using `vim` or `nano`.
+
+```json
+{
+    "components": [
+        {
+            "name": "PS4 Controller",
+            "model": "gamepad",
+            "type": "input_controller",
+            "attributes": {
+                "dev_file": "",
+                "auto_reconnect": true
+            }
+        }
+    ],
+    "services": [
+        {
+            "name": "My Controller Service",
+            "type": "base_remote_control",
+            "attributes": {
+                "input_controller": "PS4 Controller"
+            }
+        }
+    ]
+}
+```
+
+Name the file whatever you wish. I'm creative, so I named it `my_config_file.json`. Now we can start the server with the JSON file as an argument.
+
+```bash
+~$ sudo ./viam-server -config my_config_file.json
+```
+
+### Third Terminal Window: Starting our custom component server
+
+Since we have a custom component, we will need to start up our remote server containing the new server code located in the repository as `remote.py`.
+
+```bash
+~$ cd viam_minipupper_py
+~$ python3 remote.py
+```
+
+Now the `viam-server` and our client has access to our custom components.
+
+### Fourth Terminal Window: Starting our client script
+
+
 
 ## Disadvantages
 
@@ -175,6 +284,4 @@ While my time using the platform has been fun, I do notice some drawbacks. They 
 
 ## Conclusion
 
-I always tell people that their isn't just one way to do something. Choices have SOMETHING
-
-For those who are new to robotics, I think this is an interesting starting point for people compelled by a component-based architecture rather than a computational graph. Who I think this would really appeal to are those trying to create web-based frontend solution.
+I always tell people that their isn't just one way to do something. Design choices have positives and negatives depending on the application for which we wish to use it. For those who are new to robotics, I think this is an interesting starting point for people compelled by a component-based architecture rather than a computational graph. This may also appeal to experts who want to ommercialize their system for **SOMETHING**. Who I think this would really appeal to are those trying to create web-based frontend solution. In the end, Viam is a fascinating new platform for robotic systems and I wish them continued success. More competition in this space is good. Even for robotics!
