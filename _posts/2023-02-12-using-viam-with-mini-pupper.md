@@ -6,6 +6,7 @@ tags: [viam, ubuntu, mini-pupper, raspi]
 fullview: true
 comments: false
 classes: wide
+toc: true
 ---
 
 Having used [ROS](https://ros.org) for many years now, I've always been curious how other programming middlewares would work in comparison such as a new or different paradigm of structring robotic software, hardware, *etc.*. However, there doesn't seem to be many alternatives. The biggest I could find was [YARP](https://yarp.it/latest/) which I had known about for some time but never tried (Maybe another blog post in the future!). The second closest I found was [LCM](https://github.com/lcm-proj/lcm) which isn't being maintained anymore. Others seem like small projects tied to their respective goal/task in mind. I did, however, stumble upon one that caught my eye by the startup Viam called simply the *Robot Development Kit* ([RDK](https://github.com/viamrobotics/rdk)).

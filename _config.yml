@@ -16,11 +16,11 @@ minimal_mistakes_skin    : "sunrise" # "default" # "air", "aqua", "contrast", "d
 
 # Site Settings
 locale                   : "en-US"
-title                    : # "Robot Bazaar"
-title_separator          : # "-"
-subtitle                 : # "Thoughts, guides, and how-tos for all things Robotics."
+title                    : "Robot Bazaar"
+title_separator          : "|"
+subtitle                 : "Zahi's Personal Blog"
 name                     : "Zahi Kakish (zmk5)"
-description              : "A robot bazaar of thoughts, guides, and how-tos for all things Robotics."
+description              : "A robot bazaar of thoughts, guides, and how-tos for all things robotics."
 url                      : https://zmk5.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -83,7 +83,7 @@ facebook:
   username               :
   app_id                 :
   publisher              :
-og_image                 : "assets/media/zahi.jpeg" # Open Graph/Twitter default site image
+og_image                 : "assets/media/bazaar_teaser.png" # Open Graph/Twitter default site image
 # For specifying social profiles
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:
@@ -110,9 +110,9 @@ author:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
       # url: "mailto:your.name@email.com"
-    - label: "Website"
+    - label: "Comapny Website"
       icon: "fas fa-fw fa-link"
-      # url: "https://your-website.com"
+      url: "https://solrobotics.com"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
       url: "https://twitter.com/zahi_kakish"
