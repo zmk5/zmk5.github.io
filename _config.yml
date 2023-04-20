@@ -16,11 +16,11 @@ minimal_mistakes_skin    : "sunrise" # "default" # "air", "aqua", "contrast", "d
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Robot Bazaar"
-title_separator          : "-"
+title                    : # "Robot Bazaar"
+title_separator          : # "-"
 subtitle                 : # "Thoughts, guides, and how-tos for all things Robotics."
 name                     : "Zahi Kakish (zmk5)"
-description              : "Thoughts, Guides, and How-Tos for all things Robotics."
+description              : "A robot bazaar of thoughts, guides, and how-tos for all things Robotics."
 url                      : https://zmk5.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
